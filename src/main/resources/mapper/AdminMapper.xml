@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.myshop.repository.AdminMapper">
+
+
+    <resultMap id="admin" type="com.study.myshop.po.AdminPO">
+        <id property="adminId" column="admin_id"/>
+        <result property="adminName" column="admin_name"/>
+        <result property="adminPass" column="admin_pass"/>
+        <result property="adminNickname" column="admin_nickname"/>
+        <result property="adminStatus" column="admin_status"/>
+        <!--
+                身份对象的集合,传入当前对象的id
+                调用身份mapper中的方法,
+                同时定义为 懒加载 -(默认只获取当前admin,什么时候用到集合,再去查询)
+         -->
+        <collection  property="roleList" ofType="com.study.myshop.po.RolePO"
+                column="adminId"
+                select="com.study.myshop.repository.RoleMapper.selectRolePoListByAdminId"
+                fetchType="lazy">
+        </collection>
+    </resultMap>
+
+    <select id="getAdminByAdminName" resultMap="admin">
+        select *
+        from admin
+        where admin_name = #{adminName}
+    </select>
+</mapper>
