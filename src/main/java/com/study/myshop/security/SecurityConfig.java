@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()    // 开启 表单登录验证
                 .loginPage("/admin/login")  // 指定 登录表单页面的url路径
-                .loginProcessingUrl("/admin/dologin")   // 指定 验证登录表单的url路径
+                .loginProcessingUrl("/admin/doLogin")   // 指定 验证登录表单的url路径
                 .usernameParameter("username")  // 账户名称的形参名称
                 .passwordParameter("password")  // 账户密码的形参名称
                 .failureHandler( new LoginErrorHandler())    // 登录验证失败处理器

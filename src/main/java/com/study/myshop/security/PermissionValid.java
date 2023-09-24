@@ -3,7 +3,7 @@ package com.study.myshop.security;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,7 @@ public class PermissionValid implements AccessDecisionManager {
             //判断 是否有默认授权(公共资源)
             if ("ROLE_LOGIN".equals(grantName)) {
                 //判断用户是否登录
-                if (authentication instanceof AbstractAuthenticationToken){
+                if (authentication instanceof AnonymousAuthenticationToken){
                     throw  new BadCredentialsException("请先登录!");
                 }else {
                     //登录了,可以访问公共资源

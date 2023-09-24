@@ -38,7 +38,7 @@ MAIN CONTENT
         同样在Security中，配置文件会定义拦截的
         利用th解析生成路径
         -->
-        <form class="form-login" th:action="@{/amdin/doLogin}" method="post">
+        <form class="form-login" th:action="@{/admin/doLogin}" method="post">
             <h2 class="form-login-heading">
                 管理员登录
             </h2>
@@ -50,9 +50,9 @@ MAIN CONTENT
                     然后由 Security去操作
                 autofocus 自动获取焦点
                 -->
-                <input name="userName" type="text" class="form-control" placeholder="请输入登录名" autofocus>
+                <input name="username" type="text" class="form-control" placeholder="请输入登录名" autofocus>
                 <br/>
-                <input name="userPass" type="password" class="form-control" placeholder="请输入密码">
+                <input name="password" type="password" class="form-control" placeholder="请输入密码">
                 <label class="checkbox">
 		                <span class="pull-right">
 <!--		                    <a data-toggle="modal" href="login.html#myModal"> 忘记密码?</a>-->

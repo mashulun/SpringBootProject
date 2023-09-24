@@ -25,13 +25,13 @@ public class adminController  {
     /**
      * 登灵提交方法对应表单控件name，
      * 接收用户名和密码
-     *返回 null 就可以了，会被Security拦截掉的
-     * @param userName 用户名
-     * @param passWord 密码
+     * 返回 null 就可以了，会被Security拦截掉的
+     * @param username 用户名
+     * @param password 密码
      * @return null
      */
     @RequestMapping(value = "/doLogin")
-    public String doLogin(String userName,String passWord){
+    public String doLogin(String username,String password){
         return null;
     }
 }
