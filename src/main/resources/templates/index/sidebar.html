@@ -9,8 +9,14 @@
                 <img th:src="@{/assets/img/ui-sam.jpg}" class="img-circle" width="60">
 <!--                </a>-->
             </p>
-            <h5 class="centered" th:text="${session.userName}">
-                <!--用户的名称-->
+            <!--用户的名称-->
+            <h5 class="centered">
+                <!--身份-->
+                <span th:each="role:${session.adminInfo.getRoles()}">
+                    <label th:text="${role}"></label>
+                </span>
+                <span th:if="${not #lists.isEmpty(session.adminInfo.getRoles())}">:</span>
+                <span th:if="${session.adminInfo.getNickName() != null}" th:text="${session.adminInfo.getNickName()}"></span>
             </h5>
 
             <li class="mt">

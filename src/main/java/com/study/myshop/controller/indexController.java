@@ -1,7 +1,10 @@
 package com.study.myshop.controller;
 
+import com.study.myshop.po.AdminPO;
 import com.study.myshop.po.MenuPO;
+import com.study.myshop.po.RolePO;
 import com.study.myshop.service.IIndex;
+import com.study.myshop.vo.AdminInfoVo;
 import com.study.myshop.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -62,7 +65,14 @@ public class indexController {
         // 提取一级菜单作为最终的菜单列表
         List<MenuVo> menuVoList = new ArrayList<>(menuMap.values());
         session.setAttribute("menuVo", menuVoList);
-        session.setAttribute("userName", userName);
+
+        AdminPO adminByAdminName = iIndex.getAdminByAdminName(userName);
+        AdminInfoVo adminInfoVo = new AdminInfoVo();
+        adminInfoVo.setNickName(adminByAdminName.getAdminNickname());
+        for (RolePO role: adminByAdminName.getRoleList()) {
+            adminInfoVo.getRoles().add(role.getRoleName());
+        }
+        session.setAttribute("adminInfo", adminInfoVo);
         return "index/index";
     }
 }
