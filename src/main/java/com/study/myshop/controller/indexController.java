@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,6 @@ public class indexController {
         //它里面有一个对象 Authentication
         //就是当前登录的对象,只有两个方法,用户名和密码
         String userName = authentication.getName();
-
         // 按照这个信息查询出它的权限所对应的所有菜单
         List<MenuPO> menuList = iIndex.getMenuListByAdminName(userName);
 
