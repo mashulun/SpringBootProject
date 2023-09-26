@@ -16,7 +16,7 @@
                 同时定义为 懒加载 -(默认只获取当前admin,什么时候用到集合,再去查询)
          -->
         <collection  property="roleList" ofType="com.study.myshop.po.RolePO"
-                column="adminId"
+                column="admin_id"
                 select="com.study.myshop.repository.RoleMapper.selectRolePoListByAdminId"
                 fetchType="lazy">
         </collection>
