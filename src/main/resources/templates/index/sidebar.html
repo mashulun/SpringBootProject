@@ -1,0 +1,41 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="sidebar">
+    <div id="sidebar"  class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+
+            <p class="centered">
+<!--                <a href="profile.html">-->
+                <img th:src="@{/assets/img/ui-sam.jpg}" class="img-circle" width="60">
+<!--                </a>-->
+            </p>
+            <h5 class="centered" th:text="${session.userName}">
+                <!--用户的名称-->
+            </h5>
+
+            <li class="mt">
+                <!--class="active"  选中-->
+                <a  href="index.html">
+                    <i class="fa fa-dashboard"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+                <!--菜单:一级 和 二级-->
+            <li class="sub-menu" th:each="mv:${session.menuVo}">
+                <!--一级菜单-->
+                <a href="javascript:;" >
+                    <i class="fa fa-desktop"></i>
+<!--                    <span th:text="${mv.Menu.menu.menuName}">一级菜单</span>-->
+                    <span th:text="${mv.getMenu().getMenuName()}"></span>
+                </a>
+                <!--二级菜单-->
+                <ul class="sub">
+                    <li th:each="menus:${mv.getMenus()}">
+                        <a  th:href="${menus.getMenuUrl()}" th:text="${menus.getMenuName()}"></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>

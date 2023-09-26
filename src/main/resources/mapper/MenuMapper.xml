@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.myshop.repository.MenuMapper">
+
+    <resultMap id="menu" type="com.study.myshop.po.MenuPO" >
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl" />
+        <result column="pid" property="pid" />
+    </resultMap>
+
+    <select id="selectMenuListByAdminName" resultMap="menu">
+        select m.* FROM admin a
+                            INNER JOIN admin_role ar ON a.admin_id=ar.admin_id
+                            INNER JOIN role_permission rp ON rp.role_id = ar.role_id
+                            INNER JOIN permission_menu pm ON pm.permission_id = rp.permission_id
+                            INNER JOIN menu m ON pm.menu_id = m.menu_id
+        WHERE admin_name =#{userName}
+    </select>
+
+</mapper>
