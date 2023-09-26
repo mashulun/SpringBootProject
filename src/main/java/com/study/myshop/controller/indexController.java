@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 主页面
@@ -39,32 +37,32 @@ public class indexController {
         //它里面有一个对象 Authentication
         //就是当前登录的对象,只有两个方法,用户名和密码
         String userName = authentication.getName();
-        // 按照这个信息查询出它的权限所对应的所有菜单
+        // 一次性查询用户对应的所有菜单
         List<MenuPO> menuList = iIndex.getMenuListByAdminName(userName);
-
-        //通过代码组合自己需要的VO对象
-        List<MenuVo> menuVoList = new ArrayList<>(menuList.size());
-        //第二步:循环判断,创建一级菜单对象放入有
+        // 使用Map存储菜单ID和对应的菜单对象
+        Map<Integer, MenuVo> menuMap = new HashMap<>();
+        // 第一次遍历，创建一级菜单对象，并存入map中
         for (MenuPO menu : menuList) {
             if (menu.getPid() == null) {
                 MenuVo menuVo = new MenuVo();
                 menuVo.setMenu(menu);
-                menuVoList.add(menuVo);
+                menuMap.put(menu.getMenuId(), menuVo);
             }
         }
-        //循环遍历刚才Vo大集合,为每一个一级菜单放入二级菜单
-        for (MenuVo mv : menuVoList) {
-            //一级菜单的id
-            Integer menuId = mv.getMenu().getMenuId();
-            for (MenuPO m : menuList) {
-                if (Objects.equals(m.getPid(), menuId)) {
-                    mv.getMenus().add(m);
+        // 第二次遍历，将子菜单连接到对应的父菜单中
+        for (MenuPO menu : menuList) {
+            Integer parentId = menu.getPid();
+            if (parentId != null) {
+                MenuVo parentMenu = menuMap.get(parentId);
+                if (parentMenu != null) {
+                    parentMenu.getMenus().add(menu);
                 }
             }
         }
-        // 菜单放到 session 中，这样每一个控制器都可以使用了
-        session.setAttribute("menuVo",menuVoList);
-        session.setAttribute("userName",userName);
+        // 提取一级菜单作为最终的菜单列表
+        List<MenuVo> menuVoList = new ArrayList<>(menuMap.values());
+        session.setAttribute("menuVo", menuVoList);
+        session.setAttribute("userName", userName);
         return "index/index";
     }
 }
