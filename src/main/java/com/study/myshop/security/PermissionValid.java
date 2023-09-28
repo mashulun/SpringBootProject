@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -44,6 +45,15 @@ public class PermissionValid implements AccessDecisionManager {
                     throw  new BadCredentialsException("请先登录!");
                 }else {
                     //登录了,可以访问公共资源
+                    return;
+                }
+            }
+            //获取 当前用户角色列表
+            Collection<? extends GrantedAuthority> roleList = authentication.getAuthorities();
+            //迭代遍历 当前用户的角色列表
+            for(GrantedAuthority role : roleList){
+                //判断 当前提取出的角色 是否就是 授权的角色
+                if(grantName.equals(role.getAuthority())){
                     return;
                 }
             }

@@ -21,8 +21,17 @@ public interface RoleMapper {
      */
     List<RolePO> selectRolePoListByAdminId(@Param("adminId") Integer adminId);
 
-
+    /**
+     *
+     * @param operateUrl
+     * @return
+     */
     List<RolePO> selectRoleListByOperateUrl(@Param("operateUrl")String operateUrl);
 
+
+    Boolean deleteRoleByAdminId(@Param("adminId") Integer adminId);
+
+
+    List<RolePO> selectRoleList();
 
 }

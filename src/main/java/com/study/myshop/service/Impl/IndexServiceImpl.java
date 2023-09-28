@@ -16,7 +16,7 @@ import java.util.List;
  * @create 2023-09-26 11:58
  */
 @Service
-public class IndexService  implements IIndex {
+public class IndexServiceImpl implements IIndex {
 
 
     @Resource

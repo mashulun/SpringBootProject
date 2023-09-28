@@ -254,7 +254,8 @@ ul.top-menu > li > .logout {
     height:17px;
     width:17px;
     display:inline-block;
-    background: url("../img/nav-expand.png") no-repeat top;
+    /*没有当前图片*/
+    /*background: url("../img/nav-expand.png") no-repeat top;*/
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
@@ -263,7 +264,8 @@ ul.top-menu > li > .logout {
     top:15px;
 }
 .active .dcjq-icon {
-    background: url("../img/nav-expand.png") no-repeat bottom;
+    /*没有当前图片*/
+    /*background: url("../img/nav-expand.png") no-repeat bottom;*/
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;

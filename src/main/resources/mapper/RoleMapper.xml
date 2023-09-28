@@ -8,6 +8,9 @@
         <result property="roleName" column="role_name"/>
     </resultMap>
 
+
+
+
     <select id="selectRolePoListByAdminId" resultMap="role">
         SELECT r.* FROM role r
         INNER JOIN admin_role ar ON ar.role_id = r.role_id
@@ -21,6 +24,17 @@
                              INNER JOIN role_permission rp ON rp.permission_id = p.permission_id
                              INNER JOIN role r on r.role_id = rp.role_id
         WHERE o.operate_url=#{operateUrl}
+    </select>
+
+
+
+    <delete id="deleteRoleByAdminId">
+        delete from admin_role where admin_id = #{adminId}
+    </delete>
+
+
+    <select id="selectRoleList" resultMap="role">
+        select * from role;
     </select>
 
 </mapper>

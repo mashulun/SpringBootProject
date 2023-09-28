@@ -22,9 +22,20 @@
         </collection>
     </resultMap>
 
+
     <select id="getAdminByAdminName" resultMap="admin">
         select *
         from admin
-        where admin_name = #{adminName}
+        where admin_name = #{adminName} and admin_status=1;
     </select>
+
+    <select id="selectAllAdmin" resultMap="admin">
+        select * from admin where admin_status=1 ;
+    </select>
+
+
+    <update id="deleteByAdminId">
+        UPDATE admin SET admin_status =0 WHERE admin_id=#{id}
+    </update>
+
 </mapper>
