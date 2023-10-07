@@ -20,6 +20,11 @@ public class AddAdminVo implements Serializable {
     private static final long serialVersionUID = 5245509024535223908L;
 
     /**
+     *用户编号
+     */
+    private Integer adminId;
+
+    /**
      * 账户名称
      */
     private String adminName;

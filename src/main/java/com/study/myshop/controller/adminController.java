@@ -5,9 +5,9 @@ import com.study.myshop.service.IAdminService;
 import com.study.myshop.service.IRoleService;
 import com.study.myshop.vo.AddAdminVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -59,18 +59,37 @@ public class adminController {
     }
 
 
-
+    /***
+     * 添加用户页面
+     * @param model
+     * @return
+     */
     @RequestMapping("/add")
-    public String add(Model model, AddAdminVo adminVo){
-        if (!StringUtils.isEmpty(adminVo.getAdminName())){
-            System.out.println("有表单提交");
-        }
+    public String add(Model model){
         //获取所有的身份列表
         List<RolePO> roleList = iRoleService.getRoleList();
         model.addAttribute("roleList",roleList);
         return "admin/add";
     }
 
+
+    /***
+     * 获取表单提交:获取表单提交自动封装成的VO对象
+     * @param adminVo vo
+     * @return 员工列表页面
+     */
+    @RequestMapping(value = "/save")
+    public String save(AddAdminVo adminVo){
+        //担心数据在内存上泄露，这里加密
+        //拿出原始的
+        String adminPass = adminVo.getAdminPass();
+        //加密:可以单独加载Security依赖,使用这个加密
+        adminPass = new BCryptPasswordEncoder().encode(adminPass);
+        adminVo.setAdminPass(adminPass);
+        iAdminService.addAdminInfo(adminVo);
+        //路径重定向(列表页)
+        return "redirect:/admin/admin";
+    }
 
     /***
      * 删除用户

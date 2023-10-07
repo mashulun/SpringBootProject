@@ -23,6 +23,7 @@
     </resultMap>
 
 
+
     <select id="getAdminByAdminName" resultMap="admin">
         select *
         from admin
@@ -37,5 +38,20 @@
     <update id="deleteByAdminId">
         UPDATE admin SET admin_status =0 WHERE admin_id=#{id}
     </update>
+
+
+    <insert id="insertAdminByAddAdminVo"
+            parameterType="com.study.myshop.vo.AddAdminVo"
+            useGeneratedKeys="true"
+            keyProperty="addAdminVo.adminId">
+        insert into admin
+        values (null, #{addAdminVo.adminName}, #{addAdminVo.adminPass}, #{addAdminVo.adminNickname}, 1);
+    </insert>
+    <insert id="insertAdminRoleAddByAddAdmin">
+        insert into admin_role values
+            <foreach collection="addAdminVo.roles" item="role_id" separator=",">
+                (#{addAdminVo.adminId},#{role_id})
+            </foreach>
+    </insert>
 
 </mapper>

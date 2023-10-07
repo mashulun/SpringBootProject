@@ -4,6 +4,7 @@ import com.study.myshop.po.AdminPO;
 import com.study.myshop.repository.AdminMapper;
 import com.study.myshop.repository.RoleMapper;
 import com.study.myshop.service.IAdminService;
+import com.study.myshop.vo.AddAdminVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -51,5 +52,20 @@ public class AdminServiceImpl implements IAdminService {
             deleteByAdminId = roleMapper.deleteRoleByAdminId(id);
         }
         return deleteByAdminId;
+    }
+
+    /**
+     * 添加用户信息(增加权限)
+     *
+     * @param adminVo adminVo
+     * @return boolean
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addAdminInfo(AddAdminVo adminVo) {
+        adminMapper.insertAdminByAddAdminVo(adminVo);
+        if (adminVo.getRoles() != null && adminVo.getRoles().length > 0) {
+            adminMapper.insertAdminRoleAddByAddAdmin(adminVo);
+        }
     }
 }
