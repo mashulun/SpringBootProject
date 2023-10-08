@@ -3,7 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.myshop.repository.AdminMapper">
 
-
     <resultMap id="admin" type="com.study.myshop.po.AdminPO">
         <id property="adminId" column="admin_id"/>
         <result property="adminName" column="admin_name"/>
@@ -22,8 +21,6 @@
         </collection>
     </resultMap>
 
-
-
     <select id="getAdminByAdminName" resultMap="admin">
         select *
         from admin
@@ -34,10 +31,10 @@
         select * from admin where admin_status=1 ;
     </select>
 
-
     <update id="deleteByAdminId">
         UPDATE admin SET admin_status =0 WHERE admin_id=#{id}
     </update>
+
 
 
     <insert id="insertAdminByAddAdminVo"
@@ -47,6 +44,7 @@
         insert into admin
         values (null, #{addAdminVo.adminName}, #{addAdminVo.adminPass}, #{addAdminVo.adminNickname}, 1);
     </insert>
+
     <insert id="insertAdminRoleAddByAddAdmin">
         insert into admin_role values
             <foreach collection="addAdminVo.roles" item="role_id" separator=",">
@@ -54,4 +52,26 @@
             </foreach>
     </insert>
 
+    <resultMap id="AdminVo" type="com.study.myshop.vo.AdminVo">
+        <id property="adminId" column="admin_id"/>
+        <result property="adminName" column="admin_name"/>
+        <result property="adminNickname" column="admin_nickname"/>
+    </resultMap>
+
+    <select id="selectAdminVo" resultMap="AdminVo">
+        select * from admin where admin_id=#{adminId}
+    </select>
+
+    <update id="updateAdminByAddAdminVo" parameterType="com.study.myshop.vo.AddAdminVo">
+        UPDATE admin
+        <set>
+            <if test=" addAdminVo.adminPass!= null  and addAdminVo.adminPass != ''">admin_pass = #{addAdminVo.adminPass},</if>
+            <if test="addAdminVo.adminNickname != null and addAdminVo.adminNickname != '' ">admin_nickname = #{addAdminVo.adminNickname},</if>
+        </set>
+      WHERE admin_id = #{addAdminVo.adminId}
+    </update>
+
+    <delete id="deleteAdminRoleByAdminId">
+        delete from admin_role where admin_id = #{adminId}
+    </delete>
 </mapper>

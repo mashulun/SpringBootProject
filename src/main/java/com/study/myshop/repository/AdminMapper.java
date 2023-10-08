@@ -2,6 +2,8 @@ package com.study.myshop.repository;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.vo.AddAdminVo;
+import com.study.myshop.vo.AdminVo;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -45,8 +47,25 @@ public interface AdminMapper {
     void insertAdminByAddAdminVo(@Param("addAdminVo")AddAdminVo addAdminVo);
 
     /***
-     *
+     *  添加用户角色
      * @param addAdminVo addAdminVo
      */
     void insertAdminRoleAddByAddAdmin(@Param("addAdminVo")AddAdminVo addAdminVo);
+
+    /***
+     * 查询用火信息
+     * @param adminId 用户id
+     * @return AdminVo
+     */
+    AdminVo selectAdminVo(@Param("adminId")Integer adminId);
+
+    /***
+     *  跟新用户信息
+     * @param addAdminVo addAdminVo
+     * @return boolean
+     */
+    boolean updateAdminByAddAdminVo(@Param("addAdminVo")AddAdminVo addAdminVo);
+
+
+    void deleteAdminRoleByAdminId(@Param("adminId") Integer adminId);
 }

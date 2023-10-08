@@ -2,9 +2,9 @@ package com.study.myshop.service;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.vo.AddAdminVo;
+import com.study.myshop.vo.AdminVo;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 /**
@@ -29,9 +29,24 @@ public interface IAdminService {
     /**
      * 添加用户信息(增加权限)
      * @param adminVo  adminVo
-     * @return  boolean
      */
     void addAdminInfo(AddAdminVo adminVo);
+
+
+    /****
+     * 获取用户信息
+     * @param adminId 用户id
+     * @return AdminVo
+     */
+    AdminVo getAdmin(Integer adminId);
+
+
+    /***
+     * 修改用户信息和角色信息
+     * @param adminVo adminVo
+     */
+    @Transactional
+    void putAdminByAdminVo(AddAdminVo adminVo);
 
 
 }

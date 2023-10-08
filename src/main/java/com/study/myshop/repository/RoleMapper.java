@@ -1,6 +1,7 @@
 package com.study.myshop.repository;
 
 import com.study.myshop.po.RolePO;
+import com.study.myshop.vo.AdminRoleVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,5 +34,12 @@ public interface RoleMapper {
 
 
     List<RolePO> selectRoleList();
+
+    /***
+     * 按照用户id获取所有角色身份与单前圆滚滚拥有的角色
+     * @param adminId
+     * @return
+     */
+    List<AdminRoleVo> selectAdminRoleVo(@Param("adminId") Integer adminId);
 
 }

@@ -5,6 +5,7 @@ import com.study.myshop.repository.AdminMapper;
 import com.study.myshop.repository.RoleMapper;
 import com.study.myshop.service.IAdminService;
 import com.study.myshop.vo.AddAdminVo;
+import com.study.myshop.vo.AdminVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -65,6 +66,29 @@ public class AdminServiceImpl implements IAdminService {
     public void addAdminInfo(AddAdminVo adminVo) {
         adminMapper.insertAdminByAddAdminVo(adminVo);
         if (adminVo.getRoles() != null && adminVo.getRoles().length > 0) {
+            adminMapper.insertAdminRoleAddByAddAdmin(adminVo);
+        }
+    }
+
+    /****
+     * 获取用户信息
+     * @param adminId 用户id
+     * @return AdminVo
+     */
+    @Override
+    public AdminVo getAdmin(Integer adminId) {
+        return adminMapper.selectAdminVo(adminId);
+    }
+
+    /**
+     * @param adminVo
+     */
+    @Override
+    @Transactional
+    public void putAdminByAdminVo(AddAdminVo adminVo) {
+        boolean b = adminMapper.updateAdminByAddAdminVo(adminVo);
+        if (b||(adminVo.getRoles() != null && adminVo.getRoles().length > 0)) {
+            adminMapper.deleteAdminRoleByAdminId(adminVo.getAdminId());
             adminMapper.insertAdminRoleAddByAddAdmin(adminVo);
         }
     }

@@ -1,6 +1,7 @@
 package com.study.myshop.service;
 
 import com.study.myshop.po.RolePO;
+import com.study.myshop.vo.AdminRoleVo;
 
 import java.util.List;
 
@@ -15,4 +16,11 @@ public interface IRoleService {
      * @return RoleList
      */
     List<RolePO> getRoleList();
+
+
+    /***
+     *  获取用户角色信息
+     * @return AdminRoleVo
+     */
+    List<AdminRoleVo> getAdminRole(Integer adminId);
 }

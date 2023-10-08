@@ -37,4 +37,36 @@
         select * from role;
     </select>
 
+
+    <!--
+	resultMap标签：设置自定义映射
+	属性：
+		id属性：表示自定义映射的唯一标识
+		type属性：查询的数据要映射的实体类的类型
+	子标签：
+		id标签：设置主键的映射关系
+		result标签：设置普通字段的映射关系
+		association标签：设置多对一的映射关系
+		collection标签：设置一对多的映射关系
+		属性：
+			property属性：设置映射关系中实体类中的属性名
+			column属性：设置映射关系中表中的字段名
+-->
+    <resultMap id="AdminRoleVo" type="com.study.myshop.vo.AdminRoleVo">
+        <id property="roleId" column="role_id"  />
+        <result property="roleName" column="role_name"/>
+        <result property="has" column="has"/>
+    </resultMap>
+
+
+
+
+    <select id="selectAdminRoleVo" resultMap="AdminRoleVo">
+        SELECT *
+        FROM role r
+                 LEFT JOIN
+                 (SELECT role_id AS has FROM admin_role WHERE admin_id = #{adminId}) AS ar ON ar.has = r.role_id
+    </select>
+
+
 </mapper>

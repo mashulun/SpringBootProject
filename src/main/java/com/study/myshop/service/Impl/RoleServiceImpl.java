@@ -3,6 +3,7 @@ package com.study.myshop.service.Impl;
 import com.study.myshop.po.RolePO;
 import com.study.myshop.repository.RoleMapper;
 import com.study.myshop.service.IRoleService;
+import com.study.myshop.vo.AdminRoleVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,5 +27,14 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public List<RolePO> getRoleList() {
         return roleMapper.selectRoleList();
+    }
+
+    /***
+     *  获取用户角色信息
+     * @return AdminRoleVo
+     */
+    @Override
+    public  List<AdminRoleVo> getAdminRole(Integer adminId) {
+        return roleMapper.selectAdminRoleVo(adminId);
     }
 }
