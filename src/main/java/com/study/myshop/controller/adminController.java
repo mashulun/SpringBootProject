@@ -55,8 +55,9 @@ public class adminController {
     }
 
     @RequestMapping(value = "/admin")
-    public String admin(Model model) {
-        model.addAttribute("adminList", iAdminService.getAdminList());
+    public String admin(String keyWords,Model model) {
+        model.addAttribute("adminList", iAdminService.getAdminList(keyWords));
+        model.addAttribute("keyWords",keyWords);
         return "admin/admin";
     }
 

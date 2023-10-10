@@ -30,7 +30,7 @@ public interface AdminMapper {
      * 查询所有的员工列表
      * @return list
      */
-    List<AdminPO> selectAllAdmin();
+    List<AdminPO> selectAllAdmin(@Param("keyWords") String keyWords);
 
     /***
      * 按照ID删除用户:状态:1 在用 0:删除

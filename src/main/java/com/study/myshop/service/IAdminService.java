@@ -19,7 +19,7 @@ public interface IAdminService {
      * 获取用户列表
      * @return  list
      */
-    List<AdminPO> getAdminList();
+    List<AdminPO> getAdminList(String keyWords);
 
 
     @Transactional

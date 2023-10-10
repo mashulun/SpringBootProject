@@ -30,11 +30,12 @@ public class AdminServiceImpl implements IAdminService {
 
     /***
      * 获取用户列表
+     * @param keyWords 关键字
      * @return list
      */
     @Override
-    public List<AdminPO> getAdminList() {
-        List<AdminPO> list = adminMapper.selectAllAdmin();
+    public List<AdminPO> getAdminList(String keyWords) {
+        List<AdminPO> list = adminMapper.selectAllAdmin(keyWords);
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(admin -> admin.setAdminPass(null));
         }
