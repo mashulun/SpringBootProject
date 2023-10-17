@@ -1,4 +1,4 @@
-package com.study.myshop.service.Impl;
+package com.study.myshop.service.impl;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.repository.AdminMapper;
@@ -97,9 +97,11 @@ public class AdminServiceImpl implements IAdminService {
     @Transactional(rollbackFor = Exception.class)
     public void putAdminByAdminVo(AddAdminVo adminVo) {
         boolean b = adminMapper.updateAdminByAddAdminVo(adminVo);
-        if (b||(adminVo.getRoles() != null && adminVo.getRoles().length > 0)) {
-            adminMapper.deleteAdminRoleByAdminId(adminVo.getAdminId());
-            adminMapper.insertAdminRoleAddByAddAdmin(adminVo);
+        if (b){
+            if ((adminVo.getRoles() != null && adminVo.getRoles().length > 0)) {
+                adminMapper.deleteAdminRoleByAdminId(adminVo.getAdminId());
+                adminMapper.insertAdminRoleAddByAddAdmin(adminVo);
+            }
         }
     }
 }

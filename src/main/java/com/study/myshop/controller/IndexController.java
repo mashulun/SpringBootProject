@@ -43,7 +43,7 @@ public class IndexController {
         // 一次性查询用户对应的所有菜单
         List<MenuPO> menuList = iIndex.getMenuListByAdminName(userName);
         // 使用Map存储菜单ID和对应的菜单对象
-        Map<Integer, MenuVo> menuMap = new HashMap<>();
+        Map<Integer, MenuVo> menuMap = new HashMap<>(menuList.size());
         // 第一次遍历，创建一级菜单对象，并存入map中
         for (MenuPO menu : menuList) {
             if (menu.getPid() == null) {

@@ -20,6 +20,7 @@ public interface IRoleService {
 
     /***
      *  获取用户角色信息
+     * @param adminId 用户id
      * @return AdminRoleVo
      */
     List<AdminRoleVo> getAdminRole(Integer adminId);

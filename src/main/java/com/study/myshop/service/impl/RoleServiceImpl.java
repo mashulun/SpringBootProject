@@ -1,4 +1,4 @@
-package com.study.myshop.service.Impl;
+package com.study.myshop.service.impl;
 
 import com.study.myshop.po.RolePO;
 import com.study.myshop.repository.RoleMapper;
@@ -31,6 +31,7 @@ public class RoleServiceImpl implements IRoleService {
 
     /***
      *  获取用户角色信息
+     * @param adminId 用户id
      * @return AdminRoleVo
      */
     @Override

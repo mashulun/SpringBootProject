@@ -38,11 +38,11 @@ public class PermissionInterceptor implements FilterInvocationSecurityMetadataSo
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         //获取当前访问的url
-        String requestURL = ((FilterInvocation) o).getRequestUrl();
+        String requestUrl = ((FilterInvocation) o).getRequestUrl();
         //当前路径,查询但当前角色有无权限
-        List<RolePO> roleList = roleMapper.selectRoleListByOperateUrl(requestURL);
+        List<RolePO> roleList = roleMapper.selectRoleListByOperateUrl(requestUrl);
         if (!CollectionUtils.isEmpty(roleList)) {
-          /*  String[] grantArray = new String[roleList.size()];
+          /***  String[] grantArray = new String[roleList.size()];
             roleList.stream().forEach(rolePO -> {
                 // 获取 rolePO 中的授权信息，假设授权信息存储在某个属性中，比如 roleName
                 String roleName = rolePO.getRoleName();
@@ -53,7 +53,7 @@ public class PermissionInterceptor implements FilterInvocationSecurityMetadataSo
             });
             */
             Set<String> uniqueRoles = new LinkedHashSet<>();
-            roleList.forEach(rolePO -> uniqueRoles.add(rolePO.getRoleName()));
+            roleList.forEach(role -> uniqueRoles.add(role.getRoleName()));
             String[] grantArray = uniqueRoles.toArray(new String[0]);
             return SecurityConfig.createList(grantArray);
         } else {

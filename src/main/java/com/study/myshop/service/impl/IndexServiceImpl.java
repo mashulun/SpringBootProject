@@ -1,4 +1,4 @@
-package com.study.myshop.service.Impl;
+package com.study.myshop.service.impl;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.po.MenuPO;

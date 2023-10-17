@@ -1,4 +1,4 @@
-package com.study.myshop.service;
+package com.study.myshop.service.impl;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.repository.AdminMapper;
@@ -19,8 +19,9 @@ import javax.annotation.Resource;
  * @version 1.0
  * @create 2023-09-23 19:31
  */
+
 @Service
-public class AdminDetailService implements UserDetailsService {
+public class AdminDetailServiceImpl implements UserDetailsService {
 
 
     @Resource
