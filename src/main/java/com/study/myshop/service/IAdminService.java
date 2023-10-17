@@ -16,13 +16,28 @@ public interface IAdminService {
 
 
     /***
-     * 获取用户列表
-     * @return  list
+     * 获取员工的数据数量- 支持keyWords
+     * @param keyWords 检索关键字
+     * @return 数量
      */
-    List<AdminPO> getAdminList(String keyWords);
+    Integer getAdminCount(String keyWords);
+
+    /**
+     * 获取员工列表 -支持keyWords
+     * @param keyWords 检索关键字
+     * @param page 页数
+     * @param rows 行数
+     * @return 员工列表
+     */
+    List<AdminPO> getAdminList(String keyWords,Integer page,Integer rows);
 
 
-    @Transactional
+    /***
+     * 删除用户
+     * @param id  用户id
+     * @return boolean
+     */
+    @Transactional(rollbackFor = Exception.class)
     Boolean removeAdminByAdminId(Integer id);
 
 
@@ -45,7 +60,7 @@ public interface IAdminService {
      * 修改用户信息和角色信息
      * @param adminVo adminVo
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     void putAdminByAdminVo(AddAdminVo adminVo);
 
 

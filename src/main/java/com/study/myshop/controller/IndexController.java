@@ -23,7 +23,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = {"/", "index"})
-public class indexController {
+public class IndexController {
 
     @Autowired
     private IIndex iIndex;

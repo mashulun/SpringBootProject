@@ -28,9 +28,12 @@ public interface AdminMapper {
 
     /***
      * 查询所有的员工列表
-     * @return list
+      * @param keyWords 检索关键字
+     * @param page 页数
+     * @param rows 行数
+     * @return 员工列表
      */
-    List<AdminPO> selectAllAdmin(@Param("keyWords") String keyWords);
+    List<AdminPO> selectAllAdmin(@Param("keyWords") String keyWords,@Param("page")Integer page,@Param("rows") Integer rows);
 
     /***
      * 按照ID删除用户:状态:1 在用 0:删除
@@ -67,5 +70,17 @@ public interface AdminMapper {
     boolean updateAdminByAddAdminVo(@Param("addAdminVo")AddAdminVo addAdminVo);
 
 
+    /***
+     *  删除用户角色权限
+     * @param adminId 用户id
+     */
     void deleteAdminRoleByAdminId(@Param("adminId") Integer adminId);
+
+    /***
+     * 查询员工信息的总数具行数
+     * @param keyWords 搜索关键字
+     * @return 行数
+     */
+    Integer selectAdminCount(@Param("keyWords") String keyWords);
+
 }

@@ -1,5 +1,6 @@
 package com.study.myshop.controller;
 
+import com.study.myshop.po.AdminPO;
 import com.study.myshop.po.RolePO;
 import com.study.myshop.service.IAdminService;
 import com.study.myshop.service.IRoleService;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/admin")
-public class adminController {
+public class AdminController {
 
     @Autowired
     private IAdminService iAdminService;
@@ -54,9 +55,32 @@ public class adminController {
         return null;
     }
 
+
     @RequestMapping(value = "/admin")
-    public String admin(String keyWords,Model model) {
-        model.addAttribute("adminList", iAdminService.getAdminList(keyWords));
+    public String admin(String keyWords,Integer page,Model model) {
+        //页数
+        if (page==null||page<1){
+            //默认第一页
+            page = 1;
+        }
+        //代入搜索关键字查询有多少数据
+        int count = iAdminService.getAdminCount(keyWords);
+        //计算总页数:每页三条
+        int initial = 3;
+        // 整数,商
+        int allPage = count/initial;
+        if(count%initial>0){
+            allPage++;
+        }
+        if (page>allPage){
+            page=allPage;
+        }
+        model.addAttribute("page",page);
+        model.addAttribute("allPage",allPage);
+
+        int start =(page-1)*initial;
+        List<AdminPO> adminList = iAdminService.getAdminList(keyWords,start,initial);
+        model.addAttribute("adminList", adminList);
         model.addAttribute("keyWords",keyWords);
         return "admin/admin";
     }

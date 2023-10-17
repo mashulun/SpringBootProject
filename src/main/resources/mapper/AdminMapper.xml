@@ -35,6 +35,7 @@
                 and (admin_name like "%"#{keyWords}"%" or admin_nickname like "%"#{keyWords}"%")
             </if>
         </where>
+      limit #{page},#{rows}
     </select>
 
     <update id="deleteByAdminId">
@@ -80,4 +81,14 @@
     <delete id="deleteAdminRoleByAdminId">
         delete from admin_role where admin_id = #{adminId}
     </delete>
+
+    <select id="selectAdminCount" resultType="java.lang.Integer">
+        select count(admin_id) from admin
+        <where>
+            admin_status=1
+            <if test="keyWords!=null and keyWords!=''">
+                and (admin_name like "%"#{keyWords}"%" or admin_nickname like "%"#{keyWords}"%")
+            </if>
+        </where>
+    </select>
 </mapper>

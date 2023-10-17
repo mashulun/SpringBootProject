@@ -29,13 +29,23 @@ public class AdminServiceImpl implements IAdminService {
     private RoleMapper roleMapper;
 
     /***
+     * 获取员工的数据数量- 支持keyWords
+     * @param keyWords 检索关键字
+     * @return 数量
+     */
+    @Override
+    public Integer getAdminCount(String keyWords) {
+        return  adminMapper.selectAdminCount(keyWords);
+    }
+
+    /***
      * 获取用户列表
      * @param keyWords 关键字
      * @return list
      */
     @Override
-    public List<AdminPO> getAdminList(String keyWords) {
-        List<AdminPO> list = adminMapper.selectAllAdmin(keyWords);
+    public List<AdminPO> getAdminList(String keyWords,Integer page,Integer rows) {
+        List<AdminPO> list = adminMapper.selectAllAdmin(keyWords,page,rows);
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(admin -> admin.setAdminPass(null));
         }
@@ -43,10 +53,10 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id 用户id
+     * @return Boolean
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean removeAdminByAdminId(Integer id) {
         boolean deleteByAdminId = adminMapper.deleteByAdminId(id);
@@ -60,7 +70,6 @@ public class AdminServiceImpl implements IAdminService {
      * 添加用户信息(增加权限)
      *
      * @param adminVo adminVo
-     * @return boolean
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -82,10 +91,10 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
-     * @param adminVo
+     * @param adminVo adminVo
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void putAdminByAdminVo(AddAdminVo adminVo) {
         boolean b = adminMapper.updateAdminByAddAdminVo(adminVo);
         if (b||(adminVo.getRoles() != null && adminVo.getRoles().length > 0)) {
