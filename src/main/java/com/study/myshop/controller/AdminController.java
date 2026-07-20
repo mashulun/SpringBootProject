@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -34,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private IRoleService iRoleService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = "/login")
     public String index(Model model) {
@@ -57,31 +61,13 @@ public class AdminController {
 
 
     @RequestMapping(value = "/admin")
-    public String admin(String keyWords,Integer page,Model model) {
-        //页数
-        if (page==null||page<1){
-            //默认第一页
-            page = 1;
-        }
-        //代入搜索关键字查询有多少数据
-        int count = iAdminService.getAdminCount(keyWords);
-        //计算总页数:每页三条
-        int initial = 3;
-        // 整数,商
-        int allPage = count/initial;
-        if(count%initial>0){
-            allPage++;
-        }
-        if (page>allPage){
-            page=allPage;
-        }
-        model.addAttribute("page",page);
-        model.addAttribute("allPage",allPage);
-
-        int start =(page-1)*initial;
-        List<AdminPO> adminList = iAdminService.getAdminList(keyWords,start,initial);
-        model.addAttribute("adminList", adminList);
-        model.addAttribute("keyWords",keyWords);
+    public String admin(String keyWords, Integer page, Model model) {
+        // 分页逻辑已移至Service层
+        Map<String, Object> pageData = iAdminService.getAdminPageData(keyWords, page);
+        model.addAttribute("page", pageData.get("page"));
+        model.addAttribute("allPage", pageData.get("allPage"));
+        model.addAttribute("adminList", pageData.get("adminList"));
+        model.addAttribute("keyWords", pageData.get("keyWords"));
         return "admin/admin";
     }
 
@@ -110,8 +96,8 @@ public class AdminController {
         //担心数据在内存上泄露，这里加密
         //拿出原始的
         String adminPass = adminVo.getAdminPass();
-        //加密:可以单独加载Security依赖,使用这个加密
-        adminPass = new BCryptPasswordEncoder().encode(adminPass);
+        //加密:使用注入的BCryptPasswordEncoder
+        adminPass = bCryptPasswordEncoder.encode(adminPass);
         adminVo.setAdminPass(adminPass);
         iAdminService.addAdminInfo(adminVo);
         //路径重定向(列表页)
@@ -156,8 +142,8 @@ public class AdminController {
     public String alter(AddAdminVo adminVo){
         if (!StringUtils.isEmpty(adminVo.getAdminPass()))
         {
-            //加密:可以单独加载Security依赖,使用这个加密
-            adminVo.setAdminPass(new BCryptPasswordEncoder().encode(adminVo.getAdminPass()));
+            //加密:使用注入的BCryptPasswordEncoder
+            adminVo.setAdminPass(bCryptPasswordEncoder.encode(adminVo.getAdminPass()));
         }
         iAdminService.putAdminByAdminVo(adminVo);
         return "redirect:/admin/admin";

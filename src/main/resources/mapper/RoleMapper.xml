@@ -20,7 +20,7 @@
     <select id="selectRoleListByOperateUrl" resultMap="role">
         select r.*  FROM operate o
                              INNER JOIN permission_operate po ON po.operate_id = o.operate_id
-                             INNER JOIN permission p ON p.permission_id = po.operate_id
+                             INNER JOIN permission p ON p.permission_id = po.permission_id
                              INNER JOIN role_permission rp ON rp.permission_id = p.permission_id
                              INNER JOIN role r on r.role_id = rp.role_id
         WHERE o.operate_url=#{operateUrl}

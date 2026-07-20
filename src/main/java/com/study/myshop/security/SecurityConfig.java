@@ -8,6 +8,7 @@ import com.study.myshop.security.handler.LoginSuccessHandler;
 import com.study.myshop.security.handler.PermissionErrorHandler;
 
 import com.study.myshop.service.impl.AdminDetailServiceImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -52,19 +53,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private PermissionErrorHandler permissionErrorHandle;
 
+    /***
+     * 登录失败处理器
+     */
+    @Resource
+    private LoginErrorHandler loginErrorHandler;
+
+    /***
+     * 登录成功处理器
+     */
+    @Resource
+    private LoginSuccessHandler loginSuccessHandler;
+
+    /***
+     * 退出成功处理器
+     */
+    @Resource
+    private LogOutSuccessHandler logOutSuccessHandler;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //就是根据输入的用户的密码判断是否和数据库查出出来的对象的密码一致
-        // 配置 用户登录的验证方式
         // 根据用户填写的账户名称获取用户对象
         auth.userDetailsService( adminService )
                 // 将获取的用户对象的密码和用户填写的密码加密后进行等性判断
-                .passwordEncoder( new BCryptPasswordEncoder());
+                .passwordEncoder( bCryptPasswordEncoder() );
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // 配置 Security 过滤请求的 例外
+        // 配置 Security 过滤请求的例外
         web.ignoring().antMatchers("/admin/login","/error/**","/img/**","/css/**","/js/**","/favicon.ico","/assets/**")
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security");
     }
@@ -93,9 +115,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 账户密码的形参名称
                 .passwordParameter("password")
                 // 登录验证失败处理器
-                .failureHandler( new LoginErrorHandler())
+                .failureHandler( loginErrorHandler )
                 // 登录验证成功处理器
-                .successHandler( new LoginSuccessHandler())
+                .successHandler( loginSuccessHandler )
                 .permitAll()
                 .and()
                 // 开启 安全退出验证
@@ -103,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 指定安全退出的URL路径
                 .logoutUrl("/admin/logout")
                 // 安全退出成功处理器
-                .logoutSuccessHandler(new LogOutSuccessHandler())
+                .logoutSuccessHandler( logOutSuccessHandler )
                 .permitAll()
                 .and()
                 .csrf()      // 跨域请求配置
