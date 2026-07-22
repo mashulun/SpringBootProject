@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.3</version>
+            <version>4.1.0</version>
         </dependency>
 
         <!-- 对应数据库的依赖 -->
