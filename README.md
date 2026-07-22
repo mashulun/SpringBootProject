@@ -1,5 +1,10 @@
 # MyShop - 后台管理系统
 
+![License](https://img.shields.io/github/license/mashulun/SpringBootProject)
+![CI](https://github.com/mashulun/SpringBootProject/actions/workflows/ci.yml/badge.svg)
+![Issues](https://img.shields.io/github/issues/mashulun/SpringBootProject)
+![Stars](https://img.shields.io/github/stars/mashulun/SpringBootProject?style=social)
+
 基于 Spring Boot 2.1 + MyBatis + Spring Security + Thymeleaf 的后台管理系统，采用 RBAC（基于角色的访问控制）权限模型，实现了从菜单级别到操作级别的细粒度动态权限管理。
 
 ## 技术栈
