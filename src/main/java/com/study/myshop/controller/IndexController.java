@@ -1,8 +1,5 @@
 package com.study.myshop.controller;
 
-import com.study.myshop.po.AdminPO;
-import com.study.myshop.po.MenuPO;
-import com.study.myshop.po.RolePO;
 import com.study.myshop.service.IIndex;
 import com.study.myshop.vo.AdminInfoVo;
 import com.study.myshop.vo.MenuVo;
@@ -12,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.List;
 
 /**
  * 主页面
@@ -36,42 +33,12 @@ public class IndexController {
     @RequestMapping(value = {"/", "/index"})
     public String index(Authentication authentication, HttpSession session) {
         //获取当前登录用户的信息
-        //打开页面之前,已经Security已经执行过了
-        //它里面有一个对象 Authentication
-        //就是当前登录的对象,只有两个方法,用户名和密码
         String userName = authentication.getName();
-        // 一次性查询用户对应的所有菜单
-        List<MenuPO> menuList = iIndex.getMenuListByAdminName(userName);
-        // 使用Map存储菜单ID和对应的菜单对象
-        Map<Integer, MenuVo> menuMap = new HashMap<>(menuList.size());
-        // 第一次遍历，创建一级菜单对象，并存入map中
-        for (MenuPO menu : menuList) {
-            if (menu.getPid() == null) {
-                MenuVo menuVo = new MenuVo();
-                menuVo.setMenu(menu);
-                menuMap.put(menu.getMenuId(), menuVo);
-            }
-        }
-        // 第二次遍历，将子菜单连接到对应的父菜单中
-        for (MenuPO menu : menuList) {
-            Integer parentId = menu.getPid();
-            if (parentId != null) {
-                MenuVo parentMenu = menuMap.get(parentId);
-                if (parentMenu != null) {
-                    parentMenu.getMenus().add(menu);
-                }
-            }
-        }
-        // 提取一级菜单作为最终的菜单列表
-        List<MenuVo> menuVoList = new ArrayList<>(menuMap.values());
+        // 菜单树构建逻辑已移至Service层
+        List<MenuVo> menuVoList = iIndex.getMenuTreeByAdminName(userName);
         session.setAttribute("menuVo", menuVoList);
-
-        AdminPO adminByAdminName = iIndex.getAdminByAdminName(userName);
-        AdminInfoVo adminInfoVo = new AdminInfoVo();
-        adminInfoVo.setNickName(adminByAdminName.getAdminNickname());
-        for (RolePO role: adminByAdminName.getRoleList()) {
-            adminInfoVo.getRoles().add(role.getRoleName());
-        }
+        // 管理员信息组装逻辑已移至Service层
+        AdminInfoVo adminInfoVo = iIndex.getAdminInfoByAdminName(userName);
         session.setAttribute("adminInfo", adminInfoVo);
         return "index/index";
     }

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +25,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class AdminPO implements Serializable, UserDetails {
 
     private static final long serialVersionUID = -3624702394501215159L;
@@ -111,6 +108,6 @@ public class AdminPO implements Serializable, UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.adminStatus != null && this.adminStatus == 1;
     }
 }

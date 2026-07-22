@@ -2,6 +2,8 @@ package com.study.myshop.service;
 
 import com.study.myshop.po.AdminPO;
 import com.study.myshop.po.MenuPO;
+import com.study.myshop.vo.AdminInfoVo;
+import com.study.myshop.vo.MenuVo;
 
 import java.util.List;
 
@@ -27,5 +29,19 @@ public interface IIndex {
      */
     AdminPO getAdminByAdminName(String userName);
 
+
+    /***
+     * 按照用户名获取菜单树(一级菜单含子菜单)
+     * @param userName 用户名
+     * @return 菜单树列表
+     */
+    List<MenuVo> getMenuTreeByAdminName(String userName);
+
+    /***
+     * 按照用户名获取管理员信息VO
+     * @param userName 用户名
+     * @return 管理员信息VO
+     */
+    AdminInfoVo getAdminInfoByAdminName(String userName);
 
 }

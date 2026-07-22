@@ -64,4 +64,12 @@ public interface IAdminService {
     void putAdminByAdminVo(AddAdminVo adminVo);
 
 
+    /***
+     * 获取分页数据(包含列表、当前页、总页数)
+     * @param keyWords 检索关键字
+     * @param page 当前页码
+     * @return 分页结果Map，包含 adminList, page, allPage, keyWords
+     */
+    java.util.Map<String, Object> getAdminPageData(String keyWords, Integer page);
+
 }
