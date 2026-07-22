@@ -151,10 +151,18 @@ admin (管理员) ──M:N── role (角色)
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/myshop?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
 spring.datasource.username=root
-spring.datasource.password=${DB_PASSWORD:msl6159@}
+spring.datasource.password=${DB_PASSWORD}
 ```
 
-数据库密码支持通过环境变量 `DB_PASSWORD` 覆盖，默认值为 `msl6159@`。
+数据库密码通过环境变量 `DB_PASSWORD` 注入，启动前需设置：
+
+```bash
+# Linux / macOS
+export DB_PASSWORD=your_password
+
+# Windows CMD
+set DB_PASSWORD=your_password
+```
 
 ### Druid 连接池
 
